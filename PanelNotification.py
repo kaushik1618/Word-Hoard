@@ -3,7 +3,7 @@
 def showPanelNotification(title="Not set", text="Not set", timeoutInSecs=5, initText="Not set"):
 
     try:
-        import gtk, pygtk, os, os.path, pynotify
+        import gtk, pygtk, sys, os, os.path, pynotify
         pygtk.require('2.0')
     except:
         print "Error: need python-notify, python-gtk2 and gtk"

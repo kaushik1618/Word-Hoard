@@ -2,7 +2,7 @@
 
 def pickWordAtRandom(pathToFileOrDir=None):
 
-    import os, os.path, random
+    import sys, os, os.path, random
 
     if not os.path.exists(pathToFileOrDir):
         print "Path '%s' does not exist" % pathToFileOrDir
