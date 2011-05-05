@@ -2,7 +2,7 @@
 
 def loopThroughGREWords(wordsFileOrDir):
 
-    import os, time, ReadWordList, LookUpWord, PanelNotification
+    import os, time, ReadWordList, LookUpWordOfflineWN, PanelNotification
 
     selfPID = os.getpid()
     pidFile = open('/home/kaushikk/GREWords.txt','wb')
@@ -13,7 +13,7 @@ def loopThroughGREWords(wordsFileOrDir):
 
     while(True):
         word = ReadWordList.pickWordAtRandom(wordsFileOrDir)
-        definition = LookUpWord.getDefinition(word)
+        definition = LookUpWordOfflineWN.getDefinition(word)
 
         while(time.time()-noteStartTime < 11):
             time.sleep(1)
