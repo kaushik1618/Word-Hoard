@@ -32,4 +32,4 @@ def pickWordAtRandom(pathToFileOrDir=None):
     return randomWord
 
 if __name__ == '__main__':
-    pickWordAtRandom()
+    print pickWordAtRandom()
