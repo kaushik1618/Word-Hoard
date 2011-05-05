@@ -14,9 +14,10 @@ def showPanelNotification(title="Not set", text="Not set", initText="Not set"):
 
     n = pynotify.Notification(title, text)
     n.set_urgency(pynotify.URGENCY_LOW)
-    helper = gtk.Button()
+
+    """helper = gtk.Button()
     icon = helper.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_DIALOG)
-    n.set_icon_from_pixbuf(icon)
+    n.set_icon_from_pixbuf(icon)"""
 
     if not n.show():
         print "Failed to send notification"
