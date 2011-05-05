@@ -2,7 +2,12 @@
 
 def loopThroughGREWords(wordsFileOrDir):
 
-    import time, ReadWordList, LookUpWord, PanelNotification
+    import os, time, ReadWordList, LookUpWord, PanelNotification
+
+    selfPID = os.getpid()
+    pidFile = open('/home/kaushikk/GREWords.txt','wb')
+    pidFile.write("%s" % selfPID)
+    pidFile.close()
 
     noteStartTime = 0
 
