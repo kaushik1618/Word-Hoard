@@ -5,13 +5,13 @@ def getDefinition(word="ERROR"):
     import time, subprocess
 
     dictProcess = subprocess.Popen(["dict", word], stdout=subprocess.PIPE)
-    time.sleep(5)
+    #time.sleep(5)  #not required for offline dict sources
     definition = dictProcess.stdout.read()
 
     position = definition.find("From WordNet")
     
     if position < 0:
-        definition = "Not found in WordNet 2.0"
+        definition = "Not found in WordNet 3.0"
         return definition
 
     else:
