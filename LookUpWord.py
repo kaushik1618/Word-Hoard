@@ -2,7 +2,9 @@
 
 def getDefinition(word="ERROR"):
 
-    import time, os, subprocess
+    import re, time, os, subprocess
+
+    pattern = re.compile('^[a-z]{0,3} ?\d: ')
 
     outFile = "/home/kaushikk/GREDefinition.txt"
     outFileHandle = open(outFile, 'wb')
@@ -32,7 +34,18 @@ def getDefinition(word="ERROR"):
         if position >= 0:
             definition = definition[:position]
 
-    return definition[len(word):].strip()
+    definition = definition[len(word):].strip()
+    lines = definition.split('\n')
+
+    definition = lines[0].strip()
+    for lineNumber in range(1, len(lines)):
+        if re.search(pattern, lines[lineNumber].strip()):
+            delimiter = '\n'
+        else:
+            delimiter = ' '
+        definition = delimiter.join([definition, lines[lineNumber].strip()])
+
+    return definition
 
 if __name__ == '__main__':
     print getDefinition()
