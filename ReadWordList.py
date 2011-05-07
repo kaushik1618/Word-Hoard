@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+def __getRandIndex(itemsList):
+    if len(itemsList) > 0:
+        return random.randrange(len(itemsList))
+    else
+        return -1
+
 def pickWordAtRandom(pathToFileOrDir=None):
 
     import sys, os, os.path, random
@@ -10,7 +16,11 @@ def pickWordAtRandom(pathToFileOrDir=None):
 
     if os.path.isdir(pathToFileOrDir):
         filesList = os.listdir(pathToFileOrDir)
-        randomIndex = random.randrange(len(filesList))
+        randomIndex = __getRandIndex(filesList)
+
+        if randomIndex == -1:
+            return "Directory '%s' is empty!" % os.path.split(pathToFileOrDir)[1]
+
         filePath = os.path.join(pathToFileOrDir, filesList[randomIndex])
 
     if os.path.isfile(pathToFileOrDir):
@@ -20,7 +30,11 @@ def pickWordAtRandom(pathToFileOrDir=None):
     linesList = filePointer.readlines()
     filePointer.close()
 
-    randomIndex = random.randrange(len(linesList))
+    randomIndex = __getRandIndex(linesList)
+
+    if randomIndex == -1:
+        return "File '%s' is empty!" % os.path.split(pathToFileOrDir)[1]
+
     randomLine = linesList[randomIndex]
     randomWord = randomLine.replace('\n','')
 
