@@ -3,7 +3,7 @@
 def __getRandIndex(itemsList):
     if len(itemsList) > 0:
         return random.randrange(len(itemsList))
-    else
+    else:
         return -1
 
 def pickWordAtRandom(pathToFileOrDir=None):
