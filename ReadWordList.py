@@ -14,10 +14,10 @@ def pickWordAtRandom(pathToFileOrDir=None):
     import sys, os, os.path
 
     if not os.path.exists(pathToFileOrDir):
-        print "Path '%s' does not exist" % pathToFileOrDir
+        print "Path '%s' does not exist!" % pathToFileOrDir
         sys.exit(1)
 
-    if os.path.isdir(pathToFileOrDir):
+    elif os.path.isdir(pathToFileOrDir):
         filesList = os.listdir(pathToFileOrDir)
         randomIndex = __getRandIndex(filesList)
 
@@ -26,7 +26,7 @@ def pickWordAtRandom(pathToFileOrDir=None):
 
         filePath = os.path.join(pathToFileOrDir, filesList[randomIndex])
 
-    if os.path.isfile(pathToFileOrDir):
+    elif os.path.isfile(pathToFileOrDir):
         filePath = pathToFileOrDir
 
     filePointer = open(filePath, 'rb')
@@ -36,7 +36,7 @@ def pickWordAtRandom(pathToFileOrDir=None):
     randomIndex = __getRandIndex(linesList)
 
     if randomIndex == -1:
-        return "File '%s' is empty!" % os.path.split(pathToFileOrDir)[1]
+        return "File '%s' is empty!" % os.path.split(filePath)[1]
 
     randomLine = linesList[randomIndex]
     randomWord = randomLine.replace('\n','')
