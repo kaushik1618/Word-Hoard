@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 def __getRandIndex(itemsList):
+
+    import random
+
     if len(itemsList) > 0:
         return random.randrange(len(itemsList))
     else:
@@ -8,7 +11,7 @@ def __getRandIndex(itemsList):
 
 def pickWordAtRandom(pathToFileOrDir=None):
 
-    import sys, os, os.path, random
+    import sys, os, os.path
 
     if not os.path.exists(pathToFileOrDir):
         print "Path '%s' does not exist" % pathToFileOrDir
