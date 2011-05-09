@@ -3,7 +3,7 @@
 def getDefinition(word='ERROR', tempOutFile=None):
     import re, time, os, subprocess
     patternForNewLine = re.compile('^[a-z]{0,3} ?\d: ')   #patternForNewLine to determine where to insert newline (only at "1. ", "2. ", etc.)
-    patternToRemoveExamples = re.compile('".*";? ?')    #patternToRemoveExamples to remove examples within double quotes
+    patternToRemoveExamples = re.compile('; ".*"')    #patternToRemoveExamples to remove examples within double quotes
     tempOutFileHandle = open(tempOutFile, 'wb')
     dictProcess = subprocess.Popen(["dict", word], stdout=tempOutFileHandle)
     tempOutFileHandle.close()
