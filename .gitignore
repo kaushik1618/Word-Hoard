@@ -1,2 +1,4 @@
 *.pyc
 *.tar.gz
+*.log
+*.pid

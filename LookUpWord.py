@@ -2,7 +2,8 @@
 
 def getDefinition(word='ERROR', tempOutFile=None):
     import re, time, os, subprocess
-    pattern = re.compile('^[a-z]{0,3} ?\d: ')
+    patternForNewLine = re.compile('^[a-z]{0,3} ?\d: ')   #patternForNewLine to determine where to insert newline (only at "1. ", "2. ", etc.)
+    patternToRemoveExamples = re.compile('".*";? ?')    #patternToRemoveExamples to remove examples within double quotes
     tempOutFileHandle = open(tempOutFile, 'wb')
     dictProcess = subprocess.Popen(["dict", word], stdout=tempOutFileHandle)
     tempOutFileHandle.close()
@@ -26,12 +27,13 @@ def getDefinition(word='ERROR', tempOutFile=None):
     lines = definition.split('\n')
     definition = lines[0].strip()
     for lineNumber in range(1, len(lines)):
-        if re.search(pattern, lines[lineNumber].strip()):
+        if re.search(patternForNewLine, lines[lineNumber].strip()):
             delimiter = '\n'
         else:
             delimiter = ' '
         definition = delimiter.join([definition, lines[lineNumber].strip()])
+    definition = re.sub(patternToRemoveExamples, '', definition)
     return definition
 
 if __name__ == '__main__':
-    print getDefinition()
+    print getDefinition('steep', 'chumma')
