@@ -2,8 +2,9 @@
 
 def getDefinition(word='ERROR', tempOutFile=None):
     import re, time, os, subprocess
-    patternForNewLine = re.compile('^[a-z]{0,3} ?\d: ')   #patternForNewLine to determine where to insert newline (only at "1. ", "2. ", etc.)
-    patternToRemoveExamples = re.compile('; ".*"')    #patternToRemoveExamples to remove examples within double quotes
+    patternForNewLine = re.compile(r'^[a-z]{0,3} ?\d: ')   #patternForNewLine to determine where to insert newline (only at "1. ", "2. ", etc.)
+    patternToRemoveExamplesForWordsWithSyns = re.compile(r'; ".*".*\[')    #patternToRemoveExamplesForWordsWithSyns to remove examples within double quotes for words with syns
+    patternToRemoveExamplesForWordsWithoutSyns = re.compile(r'; ".*".*')    #patternToRemoveExamplesForWordsWithoutSyns to remove examples within double quotes for words without syns
     with open(tempOutFile, 'wb') as tempOutFileHandle:
         dictProcess = subprocess.Popen(["dict", word], stdout=tempOutFileHandle)
     time.sleep(1)  #required for output to be written to file before reading
@@ -30,7 +31,8 @@ def getDefinition(word='ERROR', tempOutFile=None):
         else:
             delimiter = ' '
         definition = delimiter.join([definition, lines[lineNumber].strip()])
-    definition = re.sub(patternToRemoveExamples, '', definition)
+    definition = re.sub(patternToRemoveExamplesForWordsWithSyns, ' [', definition)
+    definition = re.sub(patternToRemoveExamplesForWordsWithoutSyns, '', definition)
     return definition
 
 if __name__ == '__main__':
