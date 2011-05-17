@@ -7,8 +7,8 @@ def __getRandIndex(itemsList):
     else:
         return -1
 
-def pickWordAtRandom(pathToFileOrDir=None):
-    import sys, os, os.path
+def pickWordAtRandom(pathToFileOrDir=None, regExForWord=None):
+    import sys, os, os.path, re
     if not os.path.exists(pathToFileOrDir):
         print "Path '%s' does not exist!" % pathToFileOrDir
         sys.exit(1)
@@ -20,9 +20,10 @@ def pickWordAtRandom(pathToFileOrDir=None):
         filePath = os.path.join(pathToFileOrDir, filesList[randomIndex])
     elif os.path.isfile(pathToFileOrDir):
         filePath = pathToFileOrDir
-    filePointer = open(filePath, 'rb')
-    linesList = filePointer.readlines()
-    filePointer.close()
+    with open(filePath, 'rb') as filePointer:
+        linesList = filePointer.readlines()
+    if regExForWord is not None:
+        linesList = [line for line in linesList if re.search(regExForWord, line)]
     randomIndex = __getRandIndex(linesList)
     if randomIndex == -1:
         return "File '%s' is empty!" % os.path.split(filePath)[1]

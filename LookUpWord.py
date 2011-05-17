@@ -4,13 +4,11 @@ def getDefinition(word='ERROR', tempOutFile=None):
     import re, time, os, subprocess
     patternForNewLine = re.compile('^[a-z]{0,3} ?\d: ')   #patternForNewLine to determine where to insert newline (only at "1. ", "2. ", etc.)
     patternToRemoveExamples = re.compile('; ".*"')    #patternToRemoveExamples to remove examples within double quotes
-    tempOutFileHandle = open(tempOutFile, 'wb')
-    dictProcess = subprocess.Popen(["dict", word], stdout=tempOutFileHandle)
-    tempOutFileHandle.close()
+    with open(tempOutFile, 'wb') as tempOutFileHandle:
+        dictProcess = subprocess.Popen(["dict", word], stdout=tempOutFileHandle)
     time.sleep(1)  #required for output to be written to file before reading
-    tempOutFileHandle = open(tempOutFile, 'rb')
-    definition = tempOutFileHandle.read()
-    tempOutFileHandle.close()
+    with open(tempOutFile, 'rb') as tempOutFileHandle:
+        definition = tempOutFileHandle.read()
     os.remove(tempOutFile)
     position = definition.find("From WordNet")
     if position < 0:

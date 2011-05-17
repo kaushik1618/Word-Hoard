@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-import os, sys, time, subprocess, ReadWordList, LookUpWord, PanelNotification
+import os, sys, time, re, subprocess, ReadWordList, LookUpWord, PanelNotification
 timeStringFormat = "%A, %d %B %Y, %I:%M:%S %p"
+newWordsRegExPattern = re.compile(r'\(\*\)')
 
 def loopThroughGREWords(wordsFileOrDir, tempOutFile):
     print "%s - Started logging...\n" % time.strftime(timeStringFormat)
     noteStartTime = 0
     while(True):
-        word = ReadWordList.pickWordAtRandom(wordsFileOrDir)
+        word = ReadWordList.pickWordAtRandom(wordsFileOrDir, newWordsRegExPattern)
         definition = LookUpWord.getDefinition(word, tempOutFile)
         while(time.time()-noteStartTime < 11):
             time.sleep(1)
@@ -15,9 +16,8 @@ def loopThroughGREWords(wordsFileOrDir, tempOutFile):
 
 def getPIDFromFile(pidFile):
     if os.path.exists(pidFile) and os.path.isfile(pidFile):
-        pidFileHandle = open(pidFile, 'rb')
-        pid = pidFileHandle.read()
-        pidFileHandle.close()
+        with open(pidFile, 'rb') as pidFileHandle:
+            pid = pidFileHandle.read()
         return pid
     else:
         return -1
@@ -38,9 +38,8 @@ def deleteFiles(filesList):
     return
 
 def writePIDToFile(pidFile):
-    pidFileHandle = open(pidFile,'wb')
-    pidFileHandle.write("%s" % os.getpid())
-    pidFileHandle.close()
+    with open(pidFile,'wb') as pidFileHandle:
+        pidFileHandle.write("%s" % os.getpid())
     return
 
 def redirectStdOutAndStdErrToFile(logFile):
@@ -62,6 +61,6 @@ if __name__ == '__main__':
     else:
         writePIDToFile(pidFile)
         redirectStdOutAndStdErrToFile(logFile)
-        loopThroughGREWords('/home/kaushikk/Documents/GRE/Barrons/Wordlist/New Words/', tempOutFile)
+        loopThroughGREWords('/home/kaushikk/TempFolder', tempOutFile)
 
 # Yet to handle closing logFileHandle gracefully
