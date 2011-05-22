@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os, sys, time, re, subprocess, ReadWordList, LookUpWord, PanelNotification
 timeStringFormat = "%A, %d %B %Y, %I:%M:%S %p"
-newWordsRegExPattern = re.compile(r'\(\*\)')
+newWordsRegExPattern = re.compile(r'\(\*\)') # set this to None if you do not want to filter only words marked by some symbol
 
 def loopThroughGREWords(wordsFileOrDir, tempOutFile):
     print "%s - Started logging...\n" % time.strftime(timeStringFormat)
@@ -12,6 +12,8 @@ def loopThroughGREWords(wordsFileOrDir, tempOutFile):
         while(time.time()-noteStartTime < 11):
             time.sleep(1)
         noteStartTime = time.time()
+        if newWordsRegExPattern is not None:
+            word = '%s %s %s' % ('*', word, '*')
         PanelNotification.showPanelNotification(word, definition)
 
 def getPIDFromFile(pidFile):
